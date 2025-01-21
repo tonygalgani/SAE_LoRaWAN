@@ -1,0 +1,13 @@
+BEGIN_SUBSTRATE
+4 __BOTTOM
+3 __ExpandLayer__BOTTOM_8
+2 __SubstrateLayer1
+1 __ExpandLayer__TOP_5_11
+0 __TOP
+END_SUBSTRATE
+BEGIN_MASK
+39 antenne
+5 hole
+2 cond2
+1 cond
+END_MASK

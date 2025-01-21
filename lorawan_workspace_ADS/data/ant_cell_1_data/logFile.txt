@@ -1,0 +1,17 @@
+
+hpeesofsim (*) 590.shp Aug  5 2023, MINT version 5
+    (64-bit windows built: Sun Aug 06, 2023 05:54:36 +0000)
+
+
+***** Simulation started at Fri Jan 19 10:10:24 2024
+      Running on host: "DESKTOP-9HMI3V5"
+      In Directory: "C:\Users\tony\ant_wrk\data"
+      Process ID: 18120
+
+
+SP SP1[1] <ant_lib:ant_cell_1:schematic>   freq=(700 MHz->1.5 GHz)
+
+
+Resource usage:
+  Total stopwatch time     =     1.07 seconds.
+
