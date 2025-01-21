@@ -1,0 +1,79 @@
+[
+    {
+        "id": "fa53b3022d489044",
+        "type": "tab",
+        "label": "Flux 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3dfaa75ed487aa66",
+        "type": "mqtt in",
+        "z": "fa53b3022d489044",
+        "name": "",
+        "topic": "v3/my-lorawan-2023@ttn/devices/dev-gr2-table2/up",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "0c64735af64eca87",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 200,
+        "wires": [
+            [
+                "6afbe79ce7da1264"
+            ]
+        ]
+    },
+    {
+        "id": "6afbe79ce7da1264",
+        "type": "debug",
+        "z": "fa53b3022d489044",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "0c64735af64eca87",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "eu1.cloud.thethings.network",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

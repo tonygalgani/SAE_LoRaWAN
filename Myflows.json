@@ -1,0 +1,368 @@
+[
+    {
+        "id": "5891642e519a9233",
+        "type": "tab",
+        "label": "Flux 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c244cafab844e780",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "eu1.cloud.thethings.network:1883",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "159372e90702e7cc",
+        "type": "influxdb",
+        "hostname": "localhost",
+        "port": "8086",
+        "protocol": "http",
+        "database": "Gr2_table10",
+        "name": "Gr2_table10",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "timeout": "10",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "4b97460b14ce106f",
+        "type": "mqtt in",
+        "z": "5891642e519a9233",
+        "name": "The things network",
+        "topic": "v3/sae-lorawan-2023-tony-karim@ttn/devices/eui-70b3d57ed006301d/up",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c244cafab844e780",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "f7b597b83a5fd271",
+                "e90b6d435a20d358",
+                "9c6a4ba4ae0b3ba8"
+            ]
+        ]
+    },
+    {
+        "id": "f7b597b83a5fd271",
+        "type": "debug",
+        "z": "5891642e519a9233",
+        "name": "Payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "18b0579b3f562a25",
+        "type": "influxdb out",
+        "z": "5891642e519a9233",
+        "influxdb": "159372e90702e7cc",
+        "name": "",
+        "measurement": "Donnee_Riffy",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 970,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e90b6d435a20d358",
+        "type": "function",
+        "z": "5891642e519a9233",
+        "name": "Remplissage Database",
+        "func": "msg.data = {\n    temperature: msg.payload.uplink_message.decoded_payload.temperature,\n    humidity: msg.payload.uplink_message.decoded_payload.humidity,\n    altitude: msg.payload.uplink_message.decoded_payload.altitude,\n    latitude: msg.payload.uplink_message.decoded_payload.latitude,\n    longitude: msg.payload.uplink_message.decoded_payload.longitude,\n    luminosity: msg.payload.uplink_message.decoded_payload.luminosity,\n    rfid: msg.payload.uplink_message.decoded_payload.RFID,\n    vehicule_id: msg.payload.uplink_message.decoded_payload.vehicle_id\n    }\nmsg.payload = msg.data;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "e7f8d454edeaea91",
+                "ea02b48d78612a54"
+            ]
+        ]
+    },
+    {
+        "id": "e7f8d454edeaea91",
+        "type": "debug",
+        "z": "5891642e519a9233",
+        "name": "Data",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "4d4eb5a2652e5135",
+        "type": "function",
+        "z": "5891642e519a9233",
+        "name": "Query Database",
+        "func": "msg.query = \"select * from Donnee_Riffy WHERE rfid='\" + msg.req.query.rfid + \"'order by time desc limit 1\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 420,
+        "wires": [
+            [
+                "627be3af43d254b9"
+            ]
+        ]
+    },
+    {
+        "id": "627be3af43d254b9",
+        "type": "influxdb in",
+        "z": "5891642e519a9233",
+        "influxdb": "159372e90702e7cc",
+        "name": "",
+        "query": "",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "organisation",
+        "x": 470,
+        "y": 420,
+        "wires": [
+            [
+                "5df3c27fb3fc1ce0",
+                "d6ee35e2983883a9"
+            ]
+        ]
+    },
+    {
+        "id": "5df3c27fb3fc1ce0",
+        "type": "debug",
+        "z": "5891642e519a9233",
+        "name": "Query",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9f46ca9c075ef1eb",
+        "type": "http in",
+        "z": "5891642e519a9233",
+        "name": "GET_HTTP",
+        "url": "/GET_HTTP",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "4d4eb5a2652e5135"
+            ]
+        ]
+    },
+    {
+        "id": "d6ee35e2983883a9",
+        "type": "switch",
+        "z": "5891642e519a9233",
+        "name": "",
+        "property": "payload[0]",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "null"
+            },
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 660,
+        "y": 480,
+        "wires": [
+            [
+                "8e0234c504d27eac"
+            ],
+            [
+                "01cec6b5adead254"
+            ]
+        ]
+    },
+    {
+        "id": "8e0234c504d27eac",
+        "type": "function",
+        "z": "5891642e519a9233",
+        "name": "ERROR 404",
+        "func": "msg.payload = \"ERROR 404\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 460,
+        "wires": [
+            [
+                "01cec6b5adead254"
+            ]
+        ]
+    },
+    {
+        "id": "01cec6b5adead254",
+        "type": "http response",
+        "z": "5891642e519a9233",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 990,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "ea02b48d78612a54",
+        "type": "switch",
+        "z": "5891642e519a9233",
+        "name": "!00000000",
+        "property": "payload.rfid",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "00000000",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 590,
+        "y": 340,
+        "wires": [
+            [
+                "97ba6a18350d0049"
+            ]
+        ]
+    },
+    {
+        "id": "97ba6a18350d0049",
+        "type": "switch",
+        "z": "5891642e519a9233",
+        "name": "!03000000",
+        "property": "payload.rfid",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "03000000",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "18b0579b3f562a25"
+            ]
+        ]
+    },
+    {
+        "id": "9c6a4ba4ae0b3ba8",
+        "type": "worldmap",
+        "z": "5891642e519a9233",
+        "name": "",
+        "lat": "payload.uplink_message.decoded_payload.latitude",
+        "lon": "payload.uplink_message.decoded_payload.longitude",
+        "zoom": "",
+        "layer": "OSMG",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "showruler": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,UKOS",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 580,
+        "y": 160,
+        "wires": []
+    }
+]
